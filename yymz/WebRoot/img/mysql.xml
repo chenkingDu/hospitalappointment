@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver">
+		</property>
+		<property name="url"
+			value="jdbc:mysql://localhost:3306/db_dzsw?useUnicode=true&amp;amp;amp;amp;amp;amp;characterEncoding=utf-8">
+		</property>
+		<property name="username" value="root"></property><!-- 数据库的连接名 -->
+		<property name="password" value="dcj759846419"></property><!-- 数据库的连接密码 -->
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.SQLServerDialect
+				</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>com/model/TAdmin.hbm.xml</value>
+			    <value>com/model/TLeibie.hbm.xml</value>
+			    <value>com/model/TGoods.hbm.xml</value>
+			    <value>com/model/THuiyuan.hbm.xml</value>
+			    <value>com/model/TMingxi.hbm.xml</value>
+			    <value>com/model/TOrder.hbm.xml</value>
+			    <value>com/model/TLiuyan.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+	
+	
+	<!-- 后台的登录 -->
+	<bean id="loginService" class="com.service.loginService">
+		<property name="adminDAO">
+			<ref bean="TAdminDAO" />
+		</property>
+		<property name="leibieDAO">
+			<ref bean="TLeibieDAO" />
+		</property>
+		<property name="huiyuanDAO">
+			<ref bean="THuiyuanDAO" />
+		</property>
+	</bean>
+	
+	
+	<bean id="cartService" class="com.service.cartService">
+	</bean>
+	
+	
+	
+	
+	
+	<bean id="TAdminDAO" class="com.dao.TAdminDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	
+	<bean id="indexAction" class="com.action.indexAction" scope="prototype">
+	    <property name="leibieDAO">
+			<ref bean="TLeibieDAO" />
+		</property>
+	</bean>
+	
+	
+	
+	
+	
+	<bean id="TLeibieDAO" class="com.dao.TLeibieDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="leibieAction" class="com.action.leibieAction" scope="prototype">
+		<property name="leibieDAO">
+			<ref bean="TLeibieDAO" />
+		</property>
+	</bean>
+	
+	
+	<bean id="TGoodsDAO" class="com.dao.TGoodsDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="goodsAction" class="com.action.goodsAction" scope="prototype">
+		<property name="goodsDAO">
+			<ref bean="TGoodsDAO" />
+		</property>
+	</bean>
+	
+	
+	
+	
+	<bean id="THuiyuanDAO" class="com.dao.THuiyuanDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="huiyuanAction" class="com.action.huiyuanAction" scope="prototype">
+		<property name="huiyuanDAO">
+			<ref bean="THuiyuanDAO" />
+		</property>
+	</bean>
+	
+	
+	
+	
+	<bean id="TMingxiDAO" class="com.dao.TMingxiDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	
+	
+	
+	
+	<bean id="TOrderDAO" class="com.dao.TOrderDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="buyAction" class="com.action.buyAction" scope="prototype">
+		<property name="goodsDAO">
+			<ref bean="TGoodsDAO" />
+		</property>
+		<property name="orderDAO">
+			<ref bean="TOrderDAO" />
+		</property>
+		<property name="mingxiDAO">
+			<ref bean="TMingxiDAO" />
+		</property>
+	</bean>
+	
+	
+	<bean id="TLiuyanDAO" class="com.dao.TLiuyanDAO">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="liuyanAction" class="com.action.liuyanAction" scope="prototype">
+		<property name="liuyanDAO">
+			<ref bean="TLiuyanDAO" />
+		</property>
+	</bean>
+	</beans>
